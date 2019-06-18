@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("Monitoring", "Going to MoviesListFragment");
 
-//        ft.addToBackStack(null); // add to back stack
         ft.commit();
     }
 }

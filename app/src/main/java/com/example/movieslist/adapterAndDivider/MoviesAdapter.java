@@ -72,8 +72,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.RowViewHol
                 toMovieDetailsFragment(currentMovie, v);
             }
         });
-
-//        notifyDataSetChanged();
     }
 
     private void toMovieDetailsFragment(Movie currentMovie, View v) {
@@ -105,6 +103,5 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.RowViewHol
     public void attachMoviesList(List<Movie> movieList) {
         // getting list from Fragment.
         this.movieList = movieList;
-//        notifyDataSetChanged();
     }
 }

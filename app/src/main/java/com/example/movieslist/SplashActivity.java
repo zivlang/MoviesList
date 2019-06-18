@@ -1,8 +1,6 @@
 package com.example.movieslist;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -11,8 +9,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.example.movieslist.model.Movie;
@@ -35,15 +31,6 @@ import static android.content.ContentValues.TAG;
 import static android.os.Environment.getExternalStorageDirectory;
 
 public class SplashActivity extends Activity {
-
-//    SplashActivity splashActivity;
-//
-//    Context context;
-
-//    String fileName = "movies.json";
-//    static String appName = "MoviesList";
-//    String path = getExternalStorageDirectory() + "/" + appName + "/" + fileName;
-//    ArrayList<Movie> moviesList;
 
     AsyncTask<String, String, String> downloadJSON;
 
@@ -148,7 +135,7 @@ public class SplashActivity extends Activity {
                 String responseTxt = fullJSON.toString();
                 Log.d(TAG, "doInBackground: responseText " + responseTxt);
                 // PREPARE FOR WRITING A FILE TO A DEVICE DIRECTORY
-                FileOutputStream fos = null;
+                FileOutputStream fos;
                 String folder = fileFolderDirectory();
                 path = folder + fileName;
                 try {
@@ -171,43 +158,6 @@ public class SplashActivity extends Activity {
                 directory.mkdirs();
             }
             return folder;
-        }
-
-        private boolean shouldCheckPermission() {
-            return ContextCompat.checkSelfPermission(SplashActivity.this, WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(SplashActivity.this, READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(SplashActivity.this, CAMERA) == PackageManager.PERMISSION_GRANTED;
-        }
-
-        private void requestPermissionAndContinue() {
-            // if permission wasn't already given
-            if (ContextCompat.checkSelfPermission(SplashActivity.this, WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(SplashActivity.this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(SplashActivity.this, CAMERA) != PackageManager.PERMISSION_GRANTED){
-
-                if (ActivityCompat.shouldShowRequestPermissionRationale(SplashActivity.this, WRITE_EXTERNAL_STORAGE)
-                        && ActivityCompat.shouldShowRequestPermissionRationale(SplashActivity.this, READ_EXTERNAL_STORAGE)
-                        && ActivityCompat.shouldShowRequestPermissionRationale(SplashActivity.this, CAMERA)) {
-                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(SplashActivity.this);
-                    alertBuilder.setCancelable(true);
-                    alertBuilder.setTitle(getString(R.string.permission_necessary));
-                    alertBuilder.setMessage(R.string.permission_dialog_message);
-                    alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(SplashActivity.this, new String[]{WRITE_EXTERNAL_STORAGE
-                                    , READ_EXTERNAL_STORAGE, CAMERA}, PERMISSION_REQUEST_CODE);
-                        }
-                    });
-                    AlertDialog alert = alertBuilder.create();
-                    alert.show();
-                    Log.i("", "permission denied, show dialog");
-
-                } else {
-                    ActivityCompat.requestPermissions(SplashActivity.this, new String[]{WRITE_EXTERNAL_STORAGE,
-                            READ_EXTERNAL_STORAGE, CAMERA}, PERMISSION_REQUEST_CODE);
-                }
-            }
         }
 
         private ArrayList<Movie> getListFromDatabase() {

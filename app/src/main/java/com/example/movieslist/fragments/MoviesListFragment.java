@@ -77,7 +77,6 @@ public class MoviesListFragment extends Fragment {
         if (listBundle != null) {
             moviesList = getArguments().getParcelableArrayList("moviesList");
             moviesAdapter.attachMoviesList(moviesList);
-//            moviesAdapter.notifyDataSetChanged();
         }
 
         scanAMovieBarcode.setOnClickListener(new View.OnClickListener() {
@@ -92,19 +91,15 @@ public class MoviesListFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
-            //Check to see if QR Code has nothing in it
-//            if (result.getContents() == null) {
-//                Toast.makeText(context, "Result Not Found", Toast.LENGTH_LONG).show();
-//            } else {
-                scanString = result.getContents();
-                new GetDatabase(getActivity(),scanString);
 
-                if(isAScannedMovie) {
-                    isAScannedMovie = false;
-                    Intent intent = new Intent(getActivity(), SplashActivity.class);
-                    intent.putExtra("isCalledByIntent", true);
-                    startActivity(intent);
-//                }
+            scanString = result.getContents();
+            new GetDatabase(getActivity(),scanString);
+
+            if(isAScannedMovie) {
+                isAScannedMovie = false;
+                Intent intent = new Intent(getActivity(), SplashActivity.class);
+                intent.putExtra("isCalledByIntent", true);
+                startActivity(intent);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

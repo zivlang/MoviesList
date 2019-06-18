@@ -18,7 +18,6 @@ import static com.example.movieslist.model.Movie.TABLE_NAME;
 public class GetDatabase {
 
     private static final int DB_VERSION = 1; //required for the constructor
-    public static final String DEBUG_TAG = "MoviesList";
     private static final String dbName = "moviesList";
 
     private SQLiteOpenHelper sqLiteOpenHelper;
@@ -34,7 +33,6 @@ public class GetDatabase {
         Log.d("GetDatabase", "Cont.");
 
         this.sqLiteOpenHelper = new SQLiteHelper(context, dbName, null, DB_VERSION, scanString);
-//        getMovies();
     }
 
     public void open() {
@@ -84,7 +82,6 @@ public class GetDatabase {
                 moviesList.add(movie);
             } while (cursor.moveToNext());
         }
-//        Log.d(TAG, "The movies list from sqlite: " + moviesList);
         cursor.close();
         db.close();
 
