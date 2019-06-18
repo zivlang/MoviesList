@@ -1,0 +1,82 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:2:1-25:12
+INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:2:1-25:12
+INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:2:1-25:12
+MERGED from [:library] C:\androidProjects\MoviesList\library\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
+INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:2:1-25:12
+INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:2:1-25:12
+	package
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:3:5-55
+	android:versionName
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:5:5-30
+		INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml
+		INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:4:5-28
+		INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml
+		INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml
+uses-sdk
+ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:7:5-72
+INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:7:5-72
+INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:7:5-72
+MERGED from [:library] C:\androidProjects\MoviesList\library\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:library] C:\androidProjects\MoviesList\library\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:7:5-72
+INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:7:5-72
+	android:targetSdkVersion
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:7:41-70
+		INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml
+		INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml
+	android:minSdkVersion
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:7:15-40
+		INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml
+		INJECTED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml
+uses-permission#android.permission.CAMERA
+ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:9:5-65
+	android:name
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:9:22-62
+uses-feature#android.hardware.camera
+ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:10:5-60
+	android:name
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:10:19-57
+uses-feature#android.hardware.camera.autofocus
+ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:11:5-70
+	android:name
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:11:19-67
+uses-feature#android.hardware.camera.flash
+ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:12:5-66
+	android:name
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:12:19-63
+application
+ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:14:5-24:19
+activity#com.welcu.android.zxingfragmentlibsample.SampleActivity
+ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:15:9-20:20
+	android:theme
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:15:90-121
+	android:name
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:15:19-89
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:16:13-19:29
+action#android.intent.action.MAIN
+ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:17:17-69
+	android:name
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:17:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:18:17-77
+	android:name
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:18:27-74
+activity#com.welcu.android.zxingfragmentlibsample.SampleNestedFragmentActivity
+ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:21:9-22:20
+	android:theme
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:21:64-95
+	android:name
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:21:19-63
+activity#com.welcu.android.zxingfragmentlibsample.SampleStretchedActivity
+ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:23:9-102
+	android:theme
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:23:59-90
+	android:name
+		ADDED from C:\androidProjects\MoviesList\sample\AndroidManifest.xml:23:19-58

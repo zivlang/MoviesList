@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="ttlMargin">30dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="row_margin">5dp</dimen>
+    <dimen name="dimen_10">10dp</dimen>
+    <dimen name="ttlSize">25sp</dimen>
+    <dimen name="rowTxtSize">17sp</dimen>
+    <dimen name="alertBtnMargin">5dp</dimen>
+    <dimen name="btnTxtSize">20sp</dimen>
+</resources>

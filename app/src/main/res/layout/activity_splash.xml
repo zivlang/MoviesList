@@ -1,0 +1,13 @@
+<!-- @drawable/backrepeat - refers to the imageUri - check backrepeat.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="center"
+        android:src="@drawable/splash_movies_image"
+        android:tileMode="repeat" />
+</RelativeLayout>

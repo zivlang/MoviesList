@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+android:id="@+id/eventsListRowId"
+android:layout_height="70dp"
+android:layout_width="match_parent"
+android:orientation="horizontal"
+android:layoutDirection="ltr"
+xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="260dp"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/row_margin"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="@string/title"
+        android:textAlignment="gravity"
+        android:textColor="#000000"
+        android:textSize="@dimen/rowTxtSize" />
+
+    <TextView
+        android:id="@+id/releaseYear"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/row_margin"
+        android:layout_weight="4"
+        android:gravity="end|center"
+        android:text="2008"
+        android:textColor="#000000"
+        android:textSize="@dimen/rowTxtSize" />
+</LinearLayout>
