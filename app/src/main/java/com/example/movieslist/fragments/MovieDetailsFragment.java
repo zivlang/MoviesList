@@ -39,14 +39,14 @@ public class MovieDetailsFragment extends Fragment{
 
     ImageView movieImageView;
 
-    TextView id;
     TextView titleView;
     TextView ratingView;
     TextView releaseYearView;
     TextView genreView;
 
     ProgressBar pb;
-    private Object ImageView;
+
+    static boolean couldNotLoadImage;
 
     @Nullable
     @Override
@@ -69,26 +69,32 @@ public class MovieDetailsFragment extends Fragment{
         pb = rootView.findViewById(R.id.progress);
         String imageURLFromSQLite = cursor.getString(cursor.getColumnIndex(Movie.IMAGE_URL));
 
-        Glide.with(MovieDetailsFragment.this)
-                .load(imageURLFromSQLite)
-                .apply(new RequestOptions().override(300, 300))
-                .centerCrop()
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        pb.setVisibility(View.GONE);
-                        Toast.makeText(getActivity(), "The image URL is damaged", Toast.LENGTH_LONG).show();
-                        return false;
-                    }
+        if(!couldNotLoadImage) {
+            Glide.with(MovieDetailsFragment.this)
+                    .load(imageURLFromSQLite)
+                    .apply(new RequestOptions().override(300, 300))
+                    .centerCrop()
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        pb.setVisibility(View.GONE);
-                        return false;
-                    }
-                })
-                .into(movieImageView);
+                            pb.setVisibility(View.GONE);
+                            Toast.makeText(getActivity(), "Error: image URL issue", Toast.LENGTH_LONG).show();
+                            couldNotLoadImage = true;
+                            return false;
+                        }
 
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            pb.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .into(movieImageView);
+        }
+        else{
+            pb.setVisibility(View.GONE);
+        }
         titleView = rootView.findViewById(R.id.movieTtlId);
         ratingView = rootView.findViewById(R.id.ratingId);
         releaseYearView = rootView.findViewById(R.id.releaseYearId);

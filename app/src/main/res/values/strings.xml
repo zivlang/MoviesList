@@ -7,6 +7,7 @@
     <string name="lbl_edit_note_title">Edit Note</string>
     <string name="hint_enter_note">Enter your note!</string>
     <string name="permission_necessary">Download Permission</string>
+    <string name="storage_permission_is_necessary_to_wrote_event">Storage access permission is needed</string>
     <string name="permission_dialog_message">Would you like to download the movies\' data?</string>
     <string name="moviesListTitle">Movies List</string>
     <string name="releaseYear">releaseYear</string>

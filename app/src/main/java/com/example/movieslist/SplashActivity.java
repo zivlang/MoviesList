@@ -1,6 +1,8 @@
 package com.example.movieslist;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -9,6 +11,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.example.movieslist.model.Movie;
@@ -35,6 +39,7 @@ public class SplashActivity extends Activity {
     AsyncTask<String, String, String> downloadJSON;
 
     boolean isCalledByIntent;
+    private boolean permissionResult;
 //    GetDatabase getDatabase;
 
     @Override
@@ -44,20 +49,87 @@ public class SplashActivity extends Activity {
             setContentView(R.layout.activity_splash);
         }
 
-        downloadJSON = new DownloadJSON().execute("https://api.androidhive.info/json/movies.json");
+        if (!checkPermission()) {
+            attemptDownload();
+        } else {
+            if (checkPermission()) {
+                requestPermissionAndContinue();
+            }
+        }
     }
 
     private static final int PERMISSION_REQUEST_CODE = 200;
+    private boolean checkPermission() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            permissionResult = ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this, CAMERA) != PackageManager.PERMISSION_GRANTED;
+        }
+        return permissionResult;
+    }
+
+    private void requestPermissionAndContinue() {
+        if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, WRITE_EXTERNAL_STORAGE)
+                    && ActivityCompat.shouldShowRequestPermissionRationale(this, READ_EXTERNAL_STORAGE)
+                    && ActivityCompat.shouldShowRequestPermissionRationale(this, CAMERA)) {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+                alertBuilder.setCancelable(false);
+                alertBuilder.setTitle(getString(R.string.permission_necessary));
+                alertBuilder.setMessage(R.string.storage_permission_is_necessary_to_wrote_event);
+                alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(SplashActivity.this, new String[]{WRITE_EXTERNAL_STORAGE
+                                , READ_EXTERNAL_STORAGE, CAMERA}, PERMISSION_REQUEST_CODE);
+                    }
+                });
+                AlertDialog alert = alertBuilder.create();
+                alert.show();
+                Log.e("", "permission denied, show dialog");
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    ActivityCompat.requestPermissions(SplashActivity.this, new String[]{WRITE_EXTERNAL_STORAGE,
+                            READ_EXTERNAL_STORAGE, CAMERA}, PERMISSION_REQUEST_CODE);
+                }
+            }
+        } else {
+            attemptDownload();
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
-            //resume tasks needing this permission
-            downloadJSON = new DownloadJSON().execute("https://api.androidhive.info/json/movies.json");
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (permissions.length > 0 && grantResults.length > 0) {
+
+                boolean flag = true;
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    attemptDownload();
+                } else {
+                    finish();
+                }
+
+            } else {
+                finish();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    private void attemptDownload() {
+        downloadJSON = new DownloadJSON().execute("https://api.androidhive.info/json/movies.json");
     }
     public class DownloadJSON extends AsyncTask<String,String,String> {
 
@@ -85,30 +157,31 @@ public class SplashActivity extends Activity {
             }
 
             // checking if the user has already granted the permissions
-            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                if (checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                && checkSelfPermission(READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                && checkSelfPermission(CAMERA) == PackageManager.PERMISSION_GRANTED) {
-
-                    Log.v(TAG,"Permission is already granted");
-                    Log.d(TAG, "The JSON file doesn't exists");
-                    start();
-                    moviesList = getListFromDatabase();
-                    toMainActivity(moviesList);}
-
-                //asking for permissions, in case  the user hasn't already granted the permissions
-                else{
-                    Log.d(TAG, "Asking for permissions");
-                    Log.d(TAG, "The JSON file doesn't exists");
-
-                    ActivityCompat.requestPermissions(SplashActivity.this, new String[]{
-
-                            WRITE_EXTERNAL_STORAGE,
-                            READ_EXTERNAL_STORAGE,
-                            CAMERA}, PERMISSION_REQUEST_CODE);
-                }
-            }
+//
+//            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//
+//                if (checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+//                && checkSelfPermission(READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+//                && checkSelfPermission(CAMERA) == PackageManager.PERMISSION_GRANTED) {
+//
+//                    Log.v(TAG,"Permission is already granted");
+//                    Log.d(TAG, "The JSON file doesn't exists");
+//                    start();
+//                    moviesList = getListFromDatabase();
+//                    toMainActivity(moviesList);}
+//
+//                //asking for permissions, in case  the user hasn't already granted the permissions
+//                else{
+//                    Log.d(TAG, "Asking for permissions");
+//                    Log.d(TAG, "The JSON file doesn't exists");
+//
+//                    ActivityCompat.requestPermissions(SplashActivity.this, new String[]{
+//
+//                            WRITE_EXTERNAL_STORAGE,
+//                            READ_EXTERNAL_STORAGE,
+//                            CAMERA}, PERMISSION_REQUEST_CODE);
+//                }
+//            }
             else{
                 start();
                 moviesList = getListFromDatabase();
@@ -140,7 +213,7 @@ public class SplashActivity extends Activity {
                 path = folder + fileName;
                 try {
                     fos = new FileOutputStream(new File(path));
-                    //fos = openFileOutput(folder + fileName, MODE_PRIVATE);
+//                    fos = openFileOutput(folder + fileName, MODE_PRIVATE);
                     fos.write(responseTxt.getBytes());
                     Log.d(TAG, "downloaded ");
                 } catch (IOException e) {
@@ -155,7 +228,8 @@ public class SplashActivity extends Activity {
             String folder = Environment.getExternalStorageDirectory() + "/" +appName +"/";
             File directory = new File(folder);
             if (!directory.exists()) {
-                directory.mkdirs();
+                boolean directoryExists = directory.mkdirs();
+                Log.i("fileFolderDirectory", String.valueOf(directoryExists));
             }
             return folder;
         }

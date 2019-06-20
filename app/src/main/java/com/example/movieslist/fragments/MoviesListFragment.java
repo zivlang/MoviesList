@@ -93,7 +93,9 @@ public class MoviesListFragment extends Fragment {
         if (result != null) {
 
             scanString = result.getContents();
-            new GetDatabase(getActivity(),scanString);
+            if(scanString != null) {
+                new GetDatabase(getActivity(), scanString);
+            }
 
             if(isAScannedMovie) {
                 isAScannedMovie = false;
