@@ -28,7 +28,6 @@ import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.content.ContentValues.TAG;
@@ -63,20 +62,17 @@ public class SplashActivity extends Activity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             permissionResult = ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this, CAMERA) != PackageManager.PERMISSION_GRANTED;
+                    && ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
         }
         return permissionResult;
     }
 
     private void requestPermissionAndContinue() {
         if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this, CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                && ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, WRITE_EXTERNAL_STORAGE)
-                    && ActivityCompat.shouldShowRequestPermissionRationale(this, READ_EXTERNAL_STORAGE)
-                    && ActivityCompat.shouldShowRequestPermissionRationale(this, CAMERA)) {
+                    && ActivityCompat.shouldShowRequestPermissionRationale(this, READ_EXTERNAL_STORAGE)) {
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
                 alertBuilder.setCancelable(false);
                 alertBuilder.setTitle(getString(R.string.permission_necessary));
@@ -85,7 +81,7 @@ public class SplashActivity extends Activity {
                     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                     public void onClick(DialogInterface dialog, int which) {
                         ActivityCompat.requestPermissions(SplashActivity.this, new String[]{WRITE_EXTERNAL_STORAGE
-                                , READ_EXTERNAL_STORAGE, CAMERA}, PERMISSION_REQUEST_CODE);
+                                , READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
                     }
                 });
                 AlertDialog alert = alertBuilder.create();
@@ -94,7 +90,7 @@ public class SplashActivity extends Activity {
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     ActivityCompat.requestPermissions(SplashActivity.this, new String[]{WRITE_EXTERNAL_STORAGE,
-                            READ_EXTERNAL_STORAGE, CAMERA}, PERMISSION_REQUEST_CODE);
+                            READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
                 }
             }
         } else {
@@ -109,8 +105,8 @@ public class SplashActivity extends Activity {
             if (permissions.length > 0 && grantResults.length > 0) {
 
                 boolean flag = true;
-                for (int i = 0; i < grantResults.length; i++) {
-                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                for (int grantResult : grantResults) {
+                    if (grantResult != PackageManager.PERMISSION_GRANTED) {
                         flag = false;
                     }
                 }
