@@ -39,7 +39,6 @@ public class SplashActivity extends Activity {
 
     boolean isCalledByIntent;
     private boolean permissionResult;
-//    GetDatabase getDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,7 +181,6 @@ public class SplashActivity extends Activity {
                 path = folder + fileName;
                 try {
                     fos = new FileOutputStream(new File(path));
-//                    fos = openFileOutput(folder + fileName, MODE_PRIVATE);
                     fos.write(responseTxt.getBytes());
                     Log.d(TAG, "downloaded ");
                 } catch (IOException e) {

@@ -196,7 +196,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 output.append(jsonString);
             }
             System.out.println(output.toString());   //Prints the string content read from input stream
-//            reader.close();
 
             jsonString = output.toString();
             Log.d(TAG, "the jsonString was loaded");
