@@ -20,7 +20,7 @@ import android.widget.Button;
 
 import com.example.movieslist.R;
 import com.example.movieslist.SplashActivity;
-import com.example.movieslist.adapterAndDivider.MoviesAdapter;
+import com.example.movieslist.adapter.MoviesAdapter;
 import com.example.movieslist.model.Movie;
 import com.example.movieslist.sqliteAccess.GetDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;

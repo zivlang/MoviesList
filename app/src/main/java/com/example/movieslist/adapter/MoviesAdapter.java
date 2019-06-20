@@ -1,4 +1,4 @@
-package com.example.movieslist.adapterAndDivider;
+package com.example.movieslist.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
