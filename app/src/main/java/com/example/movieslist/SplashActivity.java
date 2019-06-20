@@ -151,33 +151,6 @@ public class SplashActivity extends Activity {
                 moviesList = getListFromDatabase();
                 toMainActivity(moviesList);
             }
-
-            // checking if the user has already granted the permissions
-//
-//            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//
-//                if (checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-//                && checkSelfPermission(READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-//                && checkSelfPermission(CAMERA) == PackageManager.PERMISSION_GRANTED) {
-//
-//                    Log.v(TAG,"Permission is already granted");
-//                    Log.d(TAG, "The JSON file doesn't exists");
-//                    start();
-//                    moviesList = getListFromDatabase();
-//                    toMainActivity(moviesList);}
-//
-//                //asking for permissions, in case  the user hasn't already granted the permissions
-//                else{
-//                    Log.d(TAG, "Asking for permissions");
-//                    Log.d(TAG, "The JSON file doesn't exists");
-//
-//                    ActivityCompat.requestPermissions(SplashActivity.this, new String[]{
-//
-//                            WRITE_EXTERNAL_STORAGE,
-//                            READ_EXTERNAL_STORAGE,
-//                            CAMERA}, PERMISSION_REQUEST_CODE);
-//                }
-//            }
             else{
                 start();
                 moviesList = getListFromDatabase();
