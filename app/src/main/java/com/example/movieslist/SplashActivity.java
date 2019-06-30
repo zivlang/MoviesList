@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -35,26 +36,47 @@ import static android.os.Environment.getExternalStorageDirectory;
 
 public class SplashActivity extends Activity {
 
-    AsyncTask<String, String, String> downloadJSON;
+    AsyncTask<String, String, String> downloadOrGetFile;
 
-    boolean isCalledByIntent;
+    boolean isCalledByIntent, fileExists;
     private boolean permissionResult;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if(!isCalledByIntent) {
-            setContentView(R.layout.activity_splash);
-        }
+    private String fileName = "movies.json";
+    private String appName = "MoviesList";
+    private String path = getExternalStorageDirectory() + "/" + appName + "/" + fileName;
 
-        if (!checkPermission()) {
-            attemptDownload();
-        } else {
-            if (checkPermission()) {
-                requestPermissionAndContinue();
+    @Override
+        protected void onCreate(Bundle savedInstanceState) {
+
+            super.onCreate(savedInstanceState);
+
+            if(!isCalledByIntent) {
+                setContentView(R.layout.activity_splash);
+            }
+
+            File file = new File(path);
+            fileExists = file.exists();
+            if (fileExists) {
+
+                Log.d(TAG, path + " exists");
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        downloadOrGetFile = new DownloadOrGetFile().execute();
+                    }
+                }, 2000);
+
+            } else {
+                if (!checkPermission()) {
+                    downloadOrGetFile = new DownloadOrGetFile().execute();
+                } else {
+                    if (checkPermission()) {
+                        requestPermissionAndContinue();
+                    }
+                }
             }
         }
-    }
 
     private static final int PERMISSION_REQUEST_CODE = 200;
     private boolean checkPermission() {
@@ -93,7 +115,7 @@ public class SplashActivity extends Activity {
                 }
             }
         } else {
-            attemptDownload();
+            downloadOrGetFile = new DownloadOrGetFile().execute();
         }
     }
 
@@ -110,7 +132,7 @@ public class SplashActivity extends Activity {
                     }
                 }
                 if (flag) {
-                    attemptDownload();
+                    downloadOrGetFile = new DownloadOrGetFile().execute();
                 } else {
                     finish();
                 }
@@ -123,15 +145,7 @@ public class SplashActivity extends Activity {
         }
     }
 
-    private void attemptDownload() {
-        downloadJSON = new DownloadJSON().execute("https://api.androidhive.info/json/movies.json");
-    }
-    public class DownloadJSON extends AsyncTask<String,String,String> {
-
-        private String fileName = "movies.json";
-        private String appName = "MoviesList";
-        private String path = getExternalStorageDirectory() + "/" + appName + "/" + fileName;
-
+    public class DownloadOrGetFile extends AsyncTask<String,String,String> {
         ArrayList<Movie> moviesList;
 
         GetDatabase getDatabase = new GetDatabase(SplashActivity.this);
@@ -143,26 +157,20 @@ public class SplashActivity extends Activity {
         @Override
         protected String doInBackground(String... strings) {
 
-            File file = new File(path);
-            if(file.exists()){
-                Log.d(TAG, path + " exists");
-
-                moviesList = getListFromDatabase();
-                toMainActivity(moviesList);
+            if(!fileExists){
+                download();
             }
-            else{
-                start();
-                moviesList = getListFromDatabase();
-                toMainActivity(moviesList);
-            }
+            moviesList = getListFromDatabase();
+            toMainActivity(moviesList);
 
             return null;
         }
 
-        private void start() {
+        private void download() {
             try {
                 //connecting the web page from which data will be read
-                HttpsURLConnection urlConnection = (HttpsURLConnection) new URL("https://api.androidhive.info/json/movies.json").openConnection();
+                String downloadUrl = "https://api.androidhive.info/json/movies.json";
+                HttpsURLConnection urlConnection = (HttpsURLConnection) new URL(downloadUrl).openConnection();
                 //an object that reads from the internet
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuilder fullJSON = new StringBuilder(); // a string that will hold the JSON
