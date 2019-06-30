@@ -107,7 +107,7 @@ public class SplashActivity extends Activity {
                 });
                 AlertDialog alert = alertBuilder.create();
                 alert.show();
-                Log.e("", "permission denied, show dialog");
+                Log.e("", "Permission denied. Show dialog");
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     ActivityCompat.requestPermissions(SplashActivity.this, new String[]{WRITE_EXTERNAL_STORAGE,
