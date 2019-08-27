@@ -38,6 +38,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <!--<include layout="@layout/change_name" />-->
 </android.support.constraint.ConstraintLayout>

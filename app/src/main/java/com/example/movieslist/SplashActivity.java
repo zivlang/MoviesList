@@ -59,7 +59,7 @@ public class SplashActivity extends Activity {
             if (fileExists) {
 
                 Log.d(TAG, path + " exists");
-
+                // Setting a delay time period for the AsyncTask.
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
